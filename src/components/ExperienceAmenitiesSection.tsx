@@ -70,28 +70,19 @@ export default function ExperienceAmenitiesSection({
 
         {/* 6 Cards Grid (3 Columns) */}
         <div className="space-y-6 sm:space-y-7 mb-12 sm:mb-14">
-          {/* Row 1: Top 3 Cards */}
+          {/* Row 1: Top 3 Cards (Without placeholder box, clean lower part) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7">
             {topCards.map((card, idx) => (
               <div
                 key={idx}
-                className="rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm border border-black/5 flex flex-col group transition-all duration-300 hover:shadow-md"
+                className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-7 shadow-sm border border-black/5 flex flex-col justify-center group transition-all duration-300 hover:shadow-md"
               >
-                {/* Top Soft Tinted Box */}
-                <div
-                  className="w-full aspect-[16/10] sm:aspect-[16/9.5]"
-                  style={{ backgroundColor: "#DFE3CE" }}
-                />
-
-                {/* Bottom White Text Box */}
-                <div className="bg-white p-5 sm:p-6 flex-1 flex flex-col justify-center">
-                  <h3 className="text-sm sm:text-base font-black uppercase text-[#111827] tracking-wide mb-1">
-                    {card.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                    {card.desc}
-                  </p>
-                </div>
+                <h3 className="text-base sm:text-lg font-black uppercase text-[#111827] tracking-wide mb-1.5">
+                  {card.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                  {card.desc}
+                </p>
               </div>
             ))}
           </div>

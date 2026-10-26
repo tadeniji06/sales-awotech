@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, CheckCircle, ArrowRight, Building2, Phone, Mail, User } from "lucide-react";
+import { X, CheckCircle } from "lucide-react";
 
 interface SpaceModalProps {
   isOpen: boolean;
@@ -9,23 +9,27 @@ interface SpaceModalProps {
   defaultCategory?: string;
 }
 
-export default function SpaceModal({ isOpen, onClose, defaultCategory = "Retail Shop" }: SpaceModalProps) {
+export default function SpaceModal({ isOpen, onClose }: SpaceModalProps) {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    businessType: defaultCategory,
-    preferredFloor: "Ground Floor (Prime Retail)",
-    paymentPlan: "35% Down Payment (Flexible Installments)",
-    note: "",
+    fullName: "",
+    phoneNumber: "",
+    emailAddress: "",
+    paymentFormat: "Full Payment",
+    actualBudget: "",
+    investmentTimeline: "",
   });
 
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setSubmitted(true);
+    }, 600);
   };
 
   const handleReset = () => {
@@ -36,7 +40,7 @@ export default function SpaceModal({ isOpen, onClose, defaultCategory = "Retail 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
       <div 
-        className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl p-6 sm:p-8 overflow-hidden border border-gray-100"
+        className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl p-6 sm:p-8 max-h-[92vh] overflow-y-auto border border-gray-100"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -49,149 +53,158 @@ export default function SpaceModal({ isOpen, onClose, defaultCategory = "Retail 
 
         {submitted ? (
           <div className="py-8 text-center space-y-4">
-            <div className="w-16 h-16 bg-[#EFF2DB] text-[#4E6B17] rounded-full flex items-center justify-center mx-auto">
+            <div className="w-16 h-16 bg-[#EFF2DB] text-[#0D3823] rounded-full flex items-center justify-center mx-auto">
               <CheckCircle className="w-10 h-10" />
             </div>
-            <h3 className="text-2xl font-extrabold text-[#111827] uppercase">
-              Application Received!
+            <h3 className="text-2xl font-black text-[#111827]">
+              Thank you!
             </h3>
             <p className="text-gray-600 max-w-sm mx-auto text-sm leading-relaxed">
-              Thank you, <span className="font-semibold text-gray-900">{formData.name}</span>. An Awo Tech Mall sales advisor will call you shortly on <span className="font-semibold text-gray-900">{formData.phone}</span> to schedule a private site tour and discuss the 35% ownership plan.
+              Thank you, <span className="font-semibold text-gray-900">{formData.fullName}</span>. Our investment team will reach out shortly on <span className="font-semibold text-gray-900">{formData.phoneNumber}</span> with the right plan for you.
             </p>
             <button
               onClick={handleReset}
-              className="mt-6 px-8 py-3 bg-[#4E6B17] hover:bg-[#3B5313] text-white rounded-full font-semibold transition-all shadow-md"
+              className="mt-6 px-8 py-3 bg-[#0D3823] hover:bg-[#072416] text-white rounded-full font-semibold transition-all shadow-md"
             >
-              Back to Overview
+              Close
             </button>
           </div>
         ) : (
           <div>
             <div className="mb-6">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#4E6B17]">
-                Own With 35% Down Payment
+              <span className="block text-xs font-bold uppercase tracking-wider text-[#E05A47] mb-1">
+                GROW YOUR MONEY
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#111827] uppercase mt-1">
-                Apply for A Space
+              <h2 className="text-2xl sm:text-3xl font-black text-[#111827] tracking-tight mb-2">
+                Subscribe Now
               </h2>
-              <p className="text-gray-600 text-sm mt-1">
-                Secure your retail shop or corporate space directly opposite Computer Village, Ikeja.
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Leave your details and our investment team will reach out with the right plan for you.
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form id="contact-form" onSubmit={handleSubmit} className="space-y-4">
+              {/* Full Name */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1">
-                  Full Name / Business Name *
+                <label className="block text-sm font-semibold text-gray-900 mb-1.5">
+                  Full Name
                 </label>
-                <div className="relative">
-                  <User className="absolute left-3.5 top-3 w-4 h-4 text-gray-400" />
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="e.g. Segun Adeyemi / Swift Gadgets"
-                    className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#4E6B17] text-sm text-gray-900"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1">
-                    Phone Number (WhatsApp) *
-                  </label>
-                  <div className="relative">
-                    <Phone className="absolute left-3.5 top-3 w-4 h-4 text-gray-400" />
-                    <input
-                      type="tel"
-                      required
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="080 1234 5678"
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#4E6B17] text-sm text-gray-900"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1">
-                    Email Address *
-                  </label>
-                  <div className="relative">
-                    <Mail className="absolute left-3.5 top-3 w-4 h-4 text-gray-400" />
-                    <input
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="you@company.com"
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#4E6B17] text-sm text-gray-900"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1">
-                    Space Interest
-                  </label>
-                  <select
-                    value={formData.businessType}
-                    onChange={(e) => setFormData({ ...formData, businessType: e.target.value })}
-                    className="w-full px-3 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#4E6B17] text-sm text-gray-900 bg-white"
-                  >
-                    <option value="Phones & Gadgets Retail">Phones & Gadgets Retail</option>
-                    <option value="Computer & Hardware Center">Computer & Hardware Center</option>
-                    <option value="Electronics & Home Tech">Electronics & Appliances</option>
-                    <option value="Executive Office / Suite">Executive Office / Tech Suite</option>
-                    <option value="Gaming & Lounge Space">Gaming / VR Lounge</option>
-                    <option value="Service & Repairs Hub">Service & Repairs Hub</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1">
-                    Ownership Plan
-                  </label>
-                  <select
-                    value={formData.paymentPlan}
-                    onChange={(e) => setFormData({ ...formData, paymentPlan: e.target.value })}
-                    className="w-full px-3 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#4E6B17] text-sm text-gray-900 bg-white"
-                  >
-                    <option value="35% Initial Deposit">35% Initial Deposit</option>
-                    <option value="Outright Purchase (Discounted)">Outright Purchase (Discounted)</option>
-                    <option value="Commercial Lease Option">Commercial Lease Option</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1">
-                  Additional Requirements (Optional)
-                </label>
-                <textarea
-                  rows={2}
-                  value={formData.note}
-                  onChange={(e) => setFormData({ ...formData, note: e.target.value })}
-                  placeholder="Estimated square meters, display requirements, timeline..."
-                  className="w-full px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#4E6B17] text-sm text-gray-900 resize-none"
+                <input
+                  type="text"
+                  name="fullName"
+                  required
+                  value={formData.fullName}
+                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                  placeholder="Enter your full name"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#0D3823] text-sm text-gray-900 placeholder:text-gray-400"
                 />
+                <input type="hidden" name="name" value={formData.fullName} />
               </div>
 
-              <button
-                type="submit"
-                className="w-full mt-2 py-3.5 px-6 rounded-full bg-[#4E6B17] hover:bg-[#3B5313] text-white font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg active:scale-[0.99]"
-              >
-                <span>Submit Space Inquiry</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
+              {/* Phone Number */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-1.5">
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  required
+                  value={formData.phoneNumber}
+                  onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+                  placeholder="Enter your phone number"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#0D3823] text-sm text-gray-900 placeholder:text-gray-400"
+                />
+                <input type="hidden" name="phoneNumber" value={formData.phoneNumber} />
+              </div>
 
-              <p className="text-center text-[11px] text-gray-500 pt-1">
-                🔒 Your information is confidential. We will never share your details.
-              </p>
+              {/* Email Address */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-1.5">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  value={formData.emailAddress}
+                  onChange={(e) => setFormData({ ...formData, emailAddress: e.target.value })}
+                  placeholder="Enter your email address"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#0D3823] text-sm text-gray-900 placeholder:text-gray-400"
+                />
+                <input type="hidden" name="emailAddress" value={formData.emailAddress} />
+              </div>
+
+              {/* Payment Format */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-1.5">
+                  Payment Format
+                </label>
+                <select
+                  name="paymentFormat"
+                  value={formData.paymentFormat}
+                  onChange={(e) => setFormData({ ...formData, paymentFormat: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#0D3823] text-sm text-gray-900 bg-white"
+                >
+                  <option value="Full Payment">Full Payment</option>
+                  <option value="35% Initial Deposit">35% Initial Deposit</option>
+                  <option value="Flexible Installments">Flexible Installments</option>
+                </select>
+              </div>
+
+              {/* Actual Budget */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-1.5">
+                  Actual Budget
+                </label>
+                <select
+                  name="budget"
+                  required
+                  value={formData.actualBudget}
+                  onChange={(e) => setFormData({ ...formData, actualBudget: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#0D3823] text-sm text-gray-900 bg-white"
+                >
+                  <option value="" disabled>Select...</option>
+                  <option value="Below ₦20,000,000">Below ₦20,000,000</option>
+                  <option value="₦20,000,000 - ₦50,000,000">₦20,000,000 - ₦50,000,000</option>
+                  <option value="₦50,000,000 - ₦100,000,000">₦50,000,000 - ₦100,000,000</option>
+                  <option value="Above ₦100,000,000">Above ₦100,000,000</option>
+                </select>
+                <input type="hidden" name="actualBudget" value={formData.actualBudget} />
+              </div>
+
+              {/* How soon are you looking to invest? */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-1.5">
+                  How soon are you looking to invest?
+                </label>
+                <select
+                  name="timeline"
+                  required
+                  value={formData.investmentTimeline}
+                  onChange={(e) => setFormData({ ...formData, investmentTimeline: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#0D3823] text-sm text-gray-900 bg-white"
+                >
+                  <option value="" disabled>Select...</option>
+                  <option value="0-7 days">0-7 days</option>
+                  <option value="7-30 days">7-30 days</option>
+                  <option value="30-60 days">30-60 days</option>
+                  <option value="60-90 days">60-90 days</option>
+                  <option value="90+ days">90+ days</option>
+                </select>
+                <input type="hidden" name="investmentTimeline" value={formData.investmentTimeline} />
+              </div>
+
+              {/* Submit Button */}
+              <div className="pt-3">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-3.5 px-6 rounded-full bg-[#0D3823] hover:bg-[#072416] text-white font-bold text-base tracking-wide shadow-md hover:shadow-lg transition-all active:scale-[0.99] disabled:opacity-75"
+                >
+                  {loading ? "Submitting..." : "Subscribe Now"}
+                </button>
+              </div>
             </form>
           </div>
         )}

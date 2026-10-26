@@ -149,6 +149,14 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
+        <script
+          src="https://app.crm360online.com/capture.js"
+          data-key="pk_live_c301fcd781410ca639e8fdfde6fb2b8b0913f497195e43a4"
+          data-selector="#contact-form"
+          data-tags=""
+          data-debug="true"
+          async
+        />
       </head>
       <body className="min-h-screen bg-white text-[#111827] antialiased selection:bg-[#4E6B17] selection:text-white">
         {children}

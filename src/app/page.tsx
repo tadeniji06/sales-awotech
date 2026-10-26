@@ -13,11 +13,11 @@ import StartWhereYouAreSection from "@/components/StartWhereYouAreSection";
 import TechBusinessVideoSection from "@/components/TechBusinessVideoSection";
 import ExperienceAmenitiesSection from "@/components/ExperienceAmenitiesSection";
 import SoldOutAndAvailabilitySection from "@/components/SoldOutAndAvailabilitySection";
+import UnitPricingSection from "@/components/UnitPricingSection";
 import LocationLeverageSection from "@/components/LocationLeverageSection";
 import OwnWith35Section from "@/components/OwnWith35Section";
 import PlanNextMoveSection from "@/components/PlanNextMoveSection";
 import BusinessFutureCtaSection from "@/components/BusinessFutureCtaSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
 import LeadCaptureSection from "@/components/LeadCaptureSection";
 import Footer from "@/components/Footer";
 import SpaceModal from "@/components/SpaceModal";
@@ -86,26 +86,28 @@ export default function Home() {
         onCheckAvailability={() => handleOpenModal("Current Availability Request")}
       />
 
-      {/* 12. Location Isn't Just An Address. It's Leverage Section (Screenshot 11) */}
+      {/* 12. Current Unit Prices Table (Screenshot Pricing) */}
+      <UnitPricingSection
+        onInquire={(category) => handleOpenModal(category)}
+      />
+
+      {/* 13. Location Isn't Just An Address. It's Leverage Section (Screenshot 11) */}
       <LocationLeverageSection />
 
-      {/* 13. You Can Own With 35%* Section (Screenshot 12) */}
+      {/* 14. You Can Own With 35%* Section (Screenshot 12) */}
       <OwnWith35Section
         onGetOwnershipDetails={() => handleOpenModal("35% Ownership Details")}
       />
 
-      {/* 14. Plan The Next Move Before You Need To Make It Section (Screenshot 13) */}
+      {/* 15. Plan The Next Move Before You Need To Make It Section (Screenshot 13) */}
       <PlanNextMoveSection
         onExploreOpportunities={() => handleOpenModal("Commercial Opportunities")}
       />
 
-      {/* 15. Your Business Has A Future CTA Section (Screenshot 14) */}
+      {/* 16. Your Business Has A Future CTA Section (Screenshot 14) */}
       <BusinessFutureCtaSection
         onExploreMall={() => handleOpenModal("Explore Awo Tech Mall")}
       />
-
-      {/* 16. What Businesses Are Saying Testimonials Section (Screenshot 15) */}
-      <TestimonialsSection />
 
       {/* 17. Final Lead Capture Form: Let's Find Out If Awo Tech Is Right For You (Screenshot 16) */}
       <LeadCaptureSection />
