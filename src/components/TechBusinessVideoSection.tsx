@@ -1,9 +1,21 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Play } from "lucide-react";
 
 export default function TechBusinessVideoSection() {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const togglePlay = () => {
+    if (!videoRef.current) return;
+    if (isPlaying) {
+      videoRef.current.pause();
+    } else {
+      videoRef.current.play();
+    }
+  };
+
   return (
     <section id="tech-business" className="w-full py-16 sm:py-20 lg:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,19 +29,34 @@ export default function TechBusinessVideoSection() {
           </p>
         </div>
 
-        {/* Video Placeholder Box matching Screenshot 2 */}
-        <div
-          className="relative w-full rounded-2xl sm:rounded-3xl aspect-[16/9] sm:aspect-[16/7.5] flex flex-col items-center justify-center shadow-sm border border-black/5 group cursor-pointer transition-all duration-300 hover:shadow-md"
-          style={{ backgroundColor: "#F4F7DC" }}
-        >
-          <div className="flex flex-col items-center gap-3">
-            <span className="text-3xl sm:text-5xl lg:text-6xl font-black text-[#111827] tracking-tight">
-              Video here
-            </span>
-            <div className="w-12 h-12 rounded-full bg-black/10 group-hover:bg-[#4E6B17] group-hover:text-white flex items-center justify-center transition-all duration-300">
-              <Play className="w-5 h-5 ml-0.5 fill-current" />
+        {/* Video Player Box */}
+        <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl bg-black border border-black/10 aspect-[16/9] group">
+          <video
+            ref={videoRef}
+            src="/video.mp4"
+            className="w-full h-full object-cover"
+            controls
+            playsInline
+            preload="metadata"
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+          />
+
+          {/* Floating Play Overlay (shows when paused / before initial play) */}
+          {!isPlaying && (
+            <div
+              onClick={togglePlay}
+              className="absolute inset-0 bg-black/35 backdrop-blur-[1px] flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover:bg-black/45 z-10"
+              aria-label="Play video"
+            >
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#4E6B17] hover:bg-[#3d5512] text-white flex items-center justify-center shadow-2xl transition-transform duration-300 hover:scale-110 active:scale-95">
+                <Play className="w-7 h-7 sm:w-8 sm:h-8 ml-1 fill-white" />
+              </div>
+              <span className="text-white text-xs sm:text-sm font-bold uppercase tracking-widest mt-3 opacity-90">
+                Watch Presentation
+              </span>
             </div>
-          </div>
+          )}
         </div>
 
         {/* Narrative Below Video */}
